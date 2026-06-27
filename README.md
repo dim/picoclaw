@@ -501,6 +501,7 @@ Talk to your PicoClaw through 19+ messaging platforms:
 | **WeCom** | Easy (QR login or manual) | WebSocket | [Guide](docs/channels/wecom/README.md) |
 | **VK** | Easy (group token) | Long Poll | [Guide](docs/channels/vk/README.md) |
 | **IRC** | Medium (server + nick) | IRC protocol | [Guide](docs/guides/chat-apps.md#irc) |
+| **SimpleX** | Medium (run simplex-chat CLI) | WebSocket (CLI) | [Guide](docs/channels/simplex/README.md) |
 | **OneBot** | Medium (WebSocket URL) | OneBot v11 | [Guide](docs/channels/onebot/README.md) |
 | **MQTT** | Easy (broker + agent_id) | MQTT pub/sub | [Guide](docs/channels/mqtt/README.md) |
 | **MaixCam** | Easy (enable) | TCP socket | [Guide](docs/channels/maixcam/README.md) |

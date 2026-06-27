@@ -706,6 +706,24 @@ type IRCSettings struct {
 	RequestCaps      FlexibleStringSlice `json:"request_caps,omitempty"     yaml:"-"`
 }
 
+// SimpleXSettings configures the SimpleX Chat channel. PicoClaw connects as a
+// WebSocket client to a separately-run `simplex-chat` CLI server
+// (e.g. `simplex-chat -p 5225` -> ws://127.0.0.1:5225). That process owns the
+// SimpleX profile, keys and SMP connections; PicoClaw only exchanges JSON
+// commands/events with it.
+type SimpleXSettings struct {
+	WSUrl             string `json:"ws_url"                      yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_WS_URL"`
+	ReconnectInterval int    `json:"reconnect_interval"          yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_RECONNECT_INTERVAL"`
+	// AutoAccept controls whether the bot automatically accepts incoming
+	// contact requests. A nil pointer (field omitted) defaults to true.
+	AutoAccept *bool `json:"auto_accept,omitempty" yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_AUTO_ACCEPT"`
+	// FilesFolder is the directory the simplex-chat CLI stores received files
+	// in. When set, PicoClaw resolves relative inbound file paths against it so
+	// images/files sent to the bot can be passed to the agent. The directory
+	// must be readable by the PicoClaw process.
+	FilesFolder string `json:"files_folder,omitempty" yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_FILES_FOLDER"`
+}
+
 type VKSettings struct {
 	Token   SecureString `json:"token,omitzero" yaml:"token,omitempty" env:"PICOCLAW_CHANNELS_VK_TOKEN"`
 	GroupID int          `json:"group_id"       yaml:"-"               env:"PICOCLAW_CHANNELS_VK_GROUP_ID"`

@@ -313,6 +313,19 @@
         "channels": ["#mychannel"],
         "request_caps": ["server-time", "message-tags"]
       }
+    },
+    "simplex": {
+      "_comment": "SimpleX Chat over the simplex-chat CLI WebSocket (run e.g. `simplex-chat -p 5225`). Direct messages only.",
+      "enabled": false,
+      "type": "simplex",
+      "allow_from": [],
+      "reasoning_channel_id": "",
+      "settings": {
+        "ws_url": "ws://127.0.0.1:5225",
+        "reconnect_interval": 5,
+        "auto_accept": true,
+        "files_folder": ""
+      }
     }
   },
   "tools": {
