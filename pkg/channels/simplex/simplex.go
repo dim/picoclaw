@@ -275,9 +275,9 @@ func (c *SimplexChannel) ensureAddress() {
 		return
 	}
 	if !c.logAddress(resp) {
-		logger.WarnCF("simplex", "Address ready but no link found in response; run /show_address in the simplex-chat CLI to view it", map[string]any{
-			"response": truncate(string(resp), 500),
-		})
+		logger.WarnCF("simplex",
+			"Address ready but no link found in response; run /show_address in the simplex-chat CLI to view it",
+			map[string]any{"response": truncate(string(resp), 500)})
 	}
 }
 
@@ -386,7 +386,7 @@ func (c *SimplexChannel) Send(ctx context.Context, msg bus.OutboundMessage) ([]s
 		return nil, fmt.Errorf("%w: %w", channels.ErrSendFailed, err)
 	}
 
-	if err := c.sendCmd(cmdSendText(contactID, msg.Content)); err != nil {
+	if err := c.sendCmd(cmdSendText(contactID, markdownToSimplex(msg.Content))); err != nil {
 		logger.ErrorCF("simplex", "Failed to send message", map[string]any{"error": err.Error()})
 		return nil, fmt.Errorf("simplex send: %w", channels.ErrTemporary)
 	}
@@ -423,7 +423,7 @@ func (c *SimplexChannel) SendMedia(ctx context.Context, msg bus.OutboundMediaMes
 			})
 			continue
 		}
-		if err := c.sendCmd(cmdSendFile(contactID, localPath, part.Caption)); err != nil {
+		if err := c.sendCmd(cmdSendFile(contactID, localPath, markdownToSimplex(part.Caption))); err != nil {
 			logger.ErrorCF("simplex", "Failed to send media", map[string]any{"error": err.Error()})
 			return nil, fmt.Errorf("simplex send media: %w", channels.ErrTemporary)
 		}

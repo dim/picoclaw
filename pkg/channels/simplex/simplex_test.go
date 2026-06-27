@@ -140,7 +140,11 @@ func TestCiFileLocalPath(t *testing.T) {
 		{"fileSource absolute", &ciFile{FileSource: &ciFileSource{FilePath: "/abs/a.png"}}, "/f", "/abs/a.png"},
 		{"fileSource relative joined", &ciFile{FileSource: &ciFileSource{FilePath: "a.png"}}, "/f", "/f/a.png"},
 		{"legacy filePath fallback", &ciFile{FilePath: "b.png"}, "/f", "/f/b.png"},
-		{"fileSource preferred over legacy", &ciFile{FilePath: "old.png", FileSource: &ciFileSource{FilePath: "/new.png"}}, "/f", "/new.png"},
+		{
+			"fileSource preferred over legacy",
+			&ciFile{FilePath: "old.png", FileSource: &ciFileSource{FilePath: "/new.png"}},
+			"/f", "/new.png",
+		},
 		{"relative no folder", &ciFile{FilePath: "c.png"}, "", "c.png"},
 	}
 	for _, tt := range tests {
@@ -345,6 +349,39 @@ func TestHandleContactRequestNoPanicWhenDisconnected(t *testing.T) {
 	ch, _ := newTestChannel(t)
 	// No connection; should log a warning but not panic.
 	ch.handleContactRequest(userContactRequest{ContactRequestId: 1, Profile: profile{DisplayName: "x"}})
+}
+
+func TestMarkdownToSimplex(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want string
+	}{
+		{"plain unchanged", "just text", "just text"},
+		{"bold", "a **b** c", "a *b* c"},
+		{"italic", "a *b* c", "a _b_ c"},
+		{"bold and italic", "**b** and _i_", "*b* and _i_"},
+		{"strikethrough", "~~gone~~", "~gone~"},
+		{"inline code", "use `go test`", "use `go test`"},
+		{"heading", "# Title\n\nbody", "*Title*\n\nbody"},
+		{"link", "see [docs](https://x.io)", "see docs (https://x.io)"},
+		{"bare-ish link same label", "[https://x.io](https://x.io)", "https://x.io"},
+		{"bullet list", "- one\n- two", "• one\n• two"},
+		{"ordered list", "1. one\n2. two", "1. one\n2. two"},
+		{
+			name: "table",
+			in:   "| Name | Count |\n| --- | --- |\n| alice | 12 |\n| bob | 3 |",
+			want: "Name | Count\n--- | ---\nalice | 12\nbob | 3",
+		},
+		{"fenced code", "```\nx := 1\n```", "`x := 1`"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := markdownToSimplex(tt.in); got != tt.want {
+				t.Errorf("markdownToSimplex(%q) =\n  %q\nwant\n  %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }
 
 // ─── helpers ───

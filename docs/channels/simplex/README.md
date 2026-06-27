@@ -133,6 +133,11 @@ agent's reply comes back in the same chat. Send a photo or file and (with
   any caption.
 - **Outbound files:** when the agent produces an image or file, it is sent to
   the contact as a SimpleX attachment.
+- **Formatting:** SimpleX clients don't render HTML or full Markdown, only a few
+  inline markers (`*bold*`, `_italic_`, `~strike~`, `` `code` ``) plus
+  auto-linked URLs. PicoClaw automatically converts the agent's Markdown to this
+  syntax: headings become bold, links become `label (url)`, lists become
+  `•`/numbered lines, and tables become pipe-separated rows.
 
 ## Notes
 

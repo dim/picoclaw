@@ -712,8 +712,8 @@ type IRCSettings struct {
 // SimpleX profile, keys and SMP connections; PicoClaw only exchanges JSON
 // commands/events with it.
 type SimpleXSettings struct {
-	WSUrl             string `json:"ws_url"                      yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_WS_URL"`
-	ReconnectInterval int    `json:"reconnect_interval"          yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_RECONNECT_INTERVAL"`
+	WSUrl             string `json:"ws_url"             yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_WS_URL"`
+	ReconnectInterval int    `json:"reconnect_interval" yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_RECONNECT_INTERVAL"`
 	// AutoAccept controls whether the bot automatically accepts incoming
 	// contact requests. A nil pointer (field omitted) defaults to true.
 	AutoAccept *bool `json:"auto_accept,omitempty" yaml:"-" env:"PICOCLAW_CHANNELS_SIMPLEX_AUTO_ACCEPT"`
